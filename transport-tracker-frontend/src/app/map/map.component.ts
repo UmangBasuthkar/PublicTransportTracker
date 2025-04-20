@@ -30,9 +30,9 @@ export class MapComponent implements AfterViewInit {
 
       //-------dummy vehicles--------
       const dummyVehicles = [
-        { id: 1, lat: 28.6139, lng: 77.2090 },
-        { id: 2, lat: 28.6150, lng: 77.2150 },
-        { id: 3, lat: 28.6100, lng: 77.2000 }
+        { id: 1, name: "Bus 1", lat: 28.6139, lng: 77.2090 },
+        { id: 2, name: "Bus 2", lat: 28.6150, lng: 77.2150 },
+        { id: 3, name: "Bus 3", lat: 28.6100, lng: 77.2000 }
       ];
 
       const vehicleMarkers: { [key: number]: L.CircleMarker } = {};
@@ -43,7 +43,8 @@ export class MapComponent implements AfterViewInit {
           color: 'blue',
           fillColor: '#00f',
           fillOpacity: 0.8
-        }).addTo(map);
+        }).addTo(map)
+        .bindPopup(`<b>${vehicle.name}</b><br>Lat: ${vehicle.lat.toFixed(4)}<br>Lng: ${vehicle.lng.toFixed(4)}`);
         vehicleMarkers[vehicle.id] = marker;
       });
 
@@ -55,6 +56,10 @@ export class MapComponent implements AfterViewInit {
 
           const marker = vehicleMarkers[vehicle.id];
           marker.setLatLng([vehicle.lat, vehicle.lng]);
+
+          marker.setPopupContent(
+            `<b>${vehicle.name}</b><br>Lat: ${vehicle.lat.toFixed(4)}<br>Lng: ${vehicle.lng.toFixed(4)}`
+          );
         });
       }, 2000);
     }
